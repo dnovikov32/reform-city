@@ -1,3 +1,15 @@
+*.map
+*.log
+.directory
+.bash_history
+.mysql_history
+.env
+deploy.yml
+dump.sql
+package-lock.json
+npm-debug.log
+
+/.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -8,3 +20,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+
+
+
