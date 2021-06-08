@@ -1,0 +1,72 @@
+version: '3.1'
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_USER=$DB_USER
+      - MYSQL_PASSWORD=$DB_PASSWORD
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_DATABASE
+    volumes:
+      - mysql_data:/var/lib/mysql:rw
+    ports:
+      - 3306:3306
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        - USER_USERNAME
+        - USER_UID
+        - USER_GID
+        - DOCKER_FRONTEND_HOST
+        - DOCKER_BACKEND_HOST
+    volumes:
+      - ./:/usr/share/nginx/html
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - php
+    depends_on:
+      - php
+    networks:
+      - app-network
+
+  php:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: ./docker/php
+      args:
+        - USER_USERNAME
+        - USER_UID
+        - USER_GID
+    environment:
+      PHP_IDE_CONFIG: serverName=docker-cli
+    secrets:
+      - id_rsa
+    volumes:
+      - ./:/usr/share/nginx/html:rw
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+secrets:
+  id_rsa:
+    file: ~/.ssh/id_rsa
+
+networks:
+  app-network:
+
+volumes:
+  mysql_data:
+    driver: local
