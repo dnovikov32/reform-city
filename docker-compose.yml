@@ -9,7 +9,7 @@ services:
       - MYSQL_USER=$DB_USER
       - MYSQL_PASSWORD=$DB_PASSWORD
       - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
-      - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_DATABASE=$DB_NAME
     volumes:
       - mysql_data:/var/lib/mysql:rw
     ports:

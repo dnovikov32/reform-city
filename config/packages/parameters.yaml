@@ -1,0 +1,2 @@
+parameters:
+  db.dsn: 'mysql:host=%env(DB_HOST)%;dbname=%env(DB_NAME)%'
