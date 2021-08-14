@@ -1,0 +1,15 @@
+services:
+  app.api.v1.category.listing.stage.transform_http_request_to_api_request:
+    class: Mosru\HttpFlowBundle\Stages\HttpToApiRequestTransformer
+    arguments:
+      - '@app.api.v1.category.listing.transformer.http_request_to_api_request'
+
+  app.api.v1.category.listing.stage.cache_resolver:
+    class: App\Project\Api\Stages\CacheResolver
+    arguments:
+      - '@app.api.common.process.use_cache'
+      - '@app.api.v1.category.listing.process.no_cache'
+      - '%app.api.v1.category.listing.use_cache%'
+
+  app.api.v1.category.listing.stage.create_dto_from_request:
+    class: App\Project\Api\Stages\Category\Listing\CreateDTOFromRequest

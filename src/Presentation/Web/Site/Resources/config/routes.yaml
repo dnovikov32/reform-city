@@ -1,0 +1,5 @@
+site:
+  path: /{slug}
+  controller: App\Presentation\Web\Site\Controller\FrontController
+  requirements:
+    slug: ".*"

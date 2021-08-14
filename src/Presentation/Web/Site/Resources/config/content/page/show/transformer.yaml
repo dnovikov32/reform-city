@@ -1,0 +1,5 @@
+services:
+  app.api.v1.category.listing.transformer.http_request_to_api_request:
+    class: App\Project\Api\Request\Category\Listing\Transformer
+    arguments:
+      - '%app.api.v1.category.listing.use_cache%'

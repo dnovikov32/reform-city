@@ -1,0 +1,6 @@
+services:
+  app.api.v1.category.listing.controller:
+    class: Mosru\HttpFlowBundle\Controller\Controller
+    bind:
+      $flow: '@app.api.v1.category.listing.flow'
+    tags: [ 'controller.service_arguments' ]

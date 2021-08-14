@@ -1,0 +1,25 @@
+services:
+  app.api.v1.category.listing.flow:
+    class: Mosru\HttpFlowBundle\Flow\Flow
+    arguments:
+      - '@app.api.v1.category.listing.process'
+
+  app.api.v1.category.listing.process:
+    class: League\Pipeline\Pipeline
+    arguments:
+      - ~
+      - '@app.api.v1.category.listing.stage.transform_http_request_to_api_request'
+      - '@app.api.common.stage.validate_request'
+      - '@app.api.common.stage.push_request_to_stack'
+      - '@app.api.common.stage.get_current_request'
+      - '@app.api.district.stage.has_exist_district'
+      - '@app.api.common.stage.remove_request_in_cache'
+      - '@app.api.v1.category.listing.stage.cache_resolver'
+
+  app.api.v1.category.listing.process.no_cache:
+    class: League\Pipeline\Pipeline
+    arguments:
+      - ~
+      - '@app.api.v1.category.listing.stage.create_dto_from_request'
+      - '@app.infrastructure.objects.category.stages.find_category_listing'
+      - '@app.api.common.stage.make_http_response'
