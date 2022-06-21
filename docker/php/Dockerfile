@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 
 ARG USER_USERNAME
 ARG USER_UID
@@ -22,7 +22,7 @@ RUN apt-get clean && apt-get update && \
     zlib1g-dev \
     libicu-dev \
     libzip-dev \
-    libzmq3-dev \
+    libpq-dev \
     zip \
     g++ \
     libssl-dev \
@@ -47,14 +47,13 @@ RUN docker-php-ext-install -j$(nproc) \
     gd \
     gettext \
     intl \
-    json \
-    mysqli \
-    pcntl \
-    pdo \
-    pdo_mysql \
     phar \
     simplexml \
-    zip
+    zip \
+    pdo \
+    pdo_pgsql
+
+#RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && docker-php-ext-install pdo pdo_pgsql pgsql
 
 RUN pecl channel-update pecl
 RUN pecl install xdebug && docker-php-ext-enable xdebug
